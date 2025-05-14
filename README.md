@@ -26,23 +26,31 @@ StoryDiffusion 插件构建了文生图工作流。现在需要你将这个能�
 
 ### 接口服务开发 (comfy-service)
 #### 开发准备
-1.  ComfyUI接口能力边界，评估comfy-service服务的调用形式。
-    - 参考 [Built in Routes](https://docs.comfy.org/essentials/comfyui-server/comms_routes) 明确待用接口
-    - 参考 server.py
-2. 技术选型，ComfyServer 使用的是python语言，
-
+ComfyUI接口能力边界，评估comfy-service服务的调用形式。
+  1. 参考 [Built in Routes](https://docs.comfy.org/essentials/comfyui-server/comms_routes) 明确待用接口
+  1. 参考 server.py
+  1. 根据CompyUI.http 中对请求数据的观察分析,ComfyUI的Rest接口能够满足大部分要求
+     1. !! 任务查询状态部分无法完美支持，任务最终状态可以通过prompt和history配合完成，对于执行过程中的任务是无法知道详细信息的
+     1. 执行过程中的详细信息需要通过[messages](https://docs.comfy.org/essentials/comfyui-server/comms_messages)来获取，可能需要python二次开发
 
 #### 结论
-- 技术选型使用python，原因
+> 技术选型使用python，ComfyServer 使用的是python语言，一些底层能力能够更好的通信（如任务状态获取，任务执行过程日志获取等）
 
 - [ ] 提供异步的文生图接口
     - 新增POST `generate` 包装POST `/prompt`
 - [ ] 支持任务状态查询
     - 复用GET `/prompt`
+      - prompt 返回队列任务数
+    - history(当任务执行完毕后才有history)
+      - status字段可具体执行状态
 - [ ] 支持任务取消
     - 包装POST `/interrupt`
-- [ ] 合理的错误处理机制
+- [ ] 合理的错误处理机制(暂分两类)
+  - Comofy-service 异常
+  - ComofyUI 异常
 - [ ] 日志记录系统
+    - 轻量实现：操作log文件流 
+    - 二开实现：干预部分log输出逻辑；这样能够返回Comfy对于每一次Run的日志，并返回给用户 
 
 #### 接口示例
 ```shell
