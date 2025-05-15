@@ -21,6 +21,7 @@ StoryDiffusion 插件构建了文生图工作流。现在需要你将这个能�
         - `wget https://huggingface.co/RunDiffusion/Juggernaut-XL-v8/resolve/9022a900377ce2d3303d3e6d86b09f6874e1e2a7/juggernautXL_v8Rundiffusion.safetensors`
           - `cp juggernautXL_v8Rundiffusion.safetensors ./ComfyUI/models/checkpoints`
     - ![CleanShot 2025-05-14 at 21.51.09.png](Screenshot/CleanShot%202025-05-14%20at%2021.51.09.png)
+    - 然后需要导出(API)的JSON格式
  
 ---- 
 
@@ -36,15 +37,15 @@ ComfyUI接口能力边界，评估comfy-service服务的调用形式。
 #### 结论
 > 技术选型使用python，ComfyServer 使用的是python语言，一些底层能力能够更好的通信（如任务状态获取，任务执行过程日志获取等）
 
-- [ ] 提供异步的文生图接口
+- [x] 提供异步的文生图接口
     - 新增POST `generate` 包装POST `/prompt`
-- [ ] 支持任务状态查询
+- [x] 支持任务状态查询
     - 复用GET `/prompt`
       - prompt 返回队列任务数
     - history(当任务执行完毕后才有history)
       - status字段可具体执行状态
-- [ ] 支持任务取消
-    - 包装POST `/interrupt`
+- [x] 支持任务取消
+    - 包装POST `/interrupt`, 取消的该node上当前执行的任务
 - [ ] 合理的错误处理机制(暂分两类)
   - Comofy-service 异常
   - ComofyUI 异常
@@ -79,6 +80,8 @@ DELETE /api/v1/tasks/{taskId}
 
 ## 命令
 ```shell
+docker run -d --name comfy-redis-container --restart always -p 6379:6379 redis --requirepass PAssWord!@123
+
 ./.venv/bin/python3 -c "import sys; print(sys.executable)" 
 
 source .venv/bin/activate
@@ -86,15 +89,29 @@ python3 -c "import sys; print(sys.executable)"
 deactivate
 python3 -c "import sys; print(sys.executable)"
 
-
-
 conda env create -n giggle-assignment
-
 label_emb.0.0.weight
 
 ```
 
-#### References
+### 数据结构
+
+#### PromptRequest
+```
+{
+  client_id:  # 客户端生成ID  uuid
+  prompt:     # comfyUI 中对工作流导出的API
+  extra_data: {
+    extra_pnginfo:{
+        workflow:  {
+            # ComfyUI/user/default/workflows 对应的json文件内容
+        }
+    }
+  }
+}
+```
+
+### References
 
 - https://github.com/smthemex/ComfyUI_StoryDiffusion
 - https://github.com/comfyanonymous/ComfyUI
