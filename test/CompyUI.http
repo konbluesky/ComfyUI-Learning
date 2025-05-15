@@ -1,4 +1,4 @@
-### GET request to example server
+### GET History
 GET http://127.0.0.1:8000/history
 
 > {%
@@ -8,7 +8,7 @@ GET http://127.0.0.1:8000/history
 %}
 
 ### GET history by promptID
-GET http://127.0.0.1:8000/history/7d4c2c23-23a0-4deb-b53a-45e0393f501e
+GET http://127.0.0.1:8000/history/cb11b837-b544-4e05-879d-2a3ad4f4335d
 
 ### GET Prompt
 GET http://127.0.0.1:8000/prompt
@@ -23,11 +23,6 @@ Content-Type: application/json
 //    "queue_remaining": 3
 //  }
 //}
-
-### POST Prompt
-POST http://127.0.0.1:8000/prompt
-Content-Type: application/json
-
 #/queue	get	retrieve the state of the queue
 ### GET queue
 GET http://127.0.0.1:8000/queue
@@ -38,7 +33,32 @@ Content-Type: application/json
 GET http://127.0.0.1:8000/object_info
 Content-Type: application/json
 
+#/object_info/{node_class}	get	retrieve details of one node type
+### GET object_info
+GET http://127.0.0.1:8000/object_info/KSampler
+
 #/system_stats	get	retrieve information about the system (python version, devices, vram etc)
 ### GET system_stats
 GET http://127.0.0.1:8000/system_stats
+Content-Type: application/json
+
+
+### POST Prompt
+POST http://127.0.0.1:8000/prompt
+Content-Type: application/json
+
+#/view_metadata/	get	retrieve metadata for a model
+### GET view_metadata
+GET http://127.0.0.1:8000/view_metadata
+Content-Type: application/json
+
+#/workflow_templates	get	retrieve a map of custom node modules and associated template workflows
+### GET workflow_templates
+GET http://127.0.0.1:8000/workflow_templates
+Content-Type: application/json
+
+
+#/interrupt	post	stop the current workflow
+### POST interrupt
+POST http://127.0.0.1:8000/interrupt
 Content-Type: application/json
