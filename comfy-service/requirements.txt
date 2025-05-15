@@ -1,0 +1,26 @@
+# 环境变量管理
+python-dotenv
+
+# 日志记录
+loguru
+
+# YAML配置文件支持
+# pyyaml
+
+pytest
+
+# 异步事件循环
+uvloop
+orjson
+
+# WEB 
+fastapi
+uvicorn
+pydantic
+PyJWT
+python-multipart
+
+# 健康检查
+psutil
+redis
+GPUtil
