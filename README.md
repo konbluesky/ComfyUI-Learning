@@ -33,6 +33,7 @@ Comfy 服务系统是一个分布式图像生成服务，由三个主要组件�
 - ComfyUI 安装参考
   - 客户端 : Win & MacOS [官网下载](https://www.comfy.org/download)
   - 源码安装: [https://github.com/comfyanonymous/ComfyUI](https://github.com/comfyanonymous/ComfyUI)
+  - 安装完成后可直接打开app，也可以用浏览器访问http://localhost:8000 (二者等效)
 
 - 开发调试
   ```shell
@@ -169,10 +170,16 @@ test
   ![](Screenshot/service-swagger.png "balancer-swagger")
 
 
-### 待完善
+### 待完善 & 思考
 
 - [ ] 基于先实现主要流程和功能的原则,ComfyUI并为使用源码安装,需编写配套安装的shell脚本
-- [ ] 
-
+- [ ] 告警信息推送功能
+- [ ] comfy_api.py 中workflow.json 每次request都要从文件加载，浪费IO，可改成一次load 扔到redis中；
+- [ ] 优化日志记录功能, 目前只有应用日志输出到logdy中，应将comfyUI中执行日志收集过来
+  - 思路1: 读comfyUI文件输出到logdy中,但是观察了/Users/xxx/Library/Logs/ComfyUI中的日志，也并不是那完善和详细 没有task具体执行过程中的日志，可能是日志级别问题，后续研究下
+  - 思路2: 所有comfyUI web请求逻辑都集中在server.py 中，可在这里二次开发参考service中`logger.py`的套路，把关键日志通过tcp方式扔到logdy中
+- [ ] comfyUI 通过UI导出api.json 比较麻烦。[comfy-cli](https://docs.comfy.org/comfy-cli/reference) 好像有这块能力
+  - 理想状态： ui中编辑workflow，自动发布到service平台完成并装载，当然取决于workflow的成熟度是否高频，毕竟生成图片全依赖这个，发布后会有版本控制一系列问题
+-
 
 
