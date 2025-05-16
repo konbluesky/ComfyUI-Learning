@@ -111,7 +111,7 @@ comfy-service
 ├── config.py
 ├── Dockerfile
 ├── health_check.py
-├── logger.py
+├── logger.py                 
 ├── main.py
 ├── models.py
 ├── paths.py
@@ -126,6 +126,15 @@ comfy-service
   - api文件由ui界面导出 ，操作路径`工作流->导出（API）`
   - 模板文件从ComfyUI安装时设置的工作目录获取，路径`{WORK_HOME}/user/default/workflows`
 
+#### 其他文件
+
+```shell
+test
+├── CompyUI.http    # ComfyUI 接口测试的http请求文件
+├── app-prompt.json # api数据
+├── logdy_test.http # logdy平台测试的http请求文件
+└── prompt.json     # 模板数据
+```
 
 ## 部署图
 
@@ -162,6 +171,8 @@ comfy-service
 
 ### 待完善
 
+- [ ] 基于先实现主要流程和功能的原则,ComfyUI并为使用源码安装,需编写配套安装的shell脚本
+- [ ] 
 
 
 
