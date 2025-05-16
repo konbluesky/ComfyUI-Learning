@@ -6,7 +6,7 @@ loguru
 
 # YAML配置文件支持
 # pyyaml
-
+httpx
 pytest
 
 # 异步事件循环
