@@ -24,6 +24,52 @@ Comfy 服务系统是一个分布式图像生成服务，由三个主要组件�
   ```shell
   docker-compose down && docker-compose up --build
   ``` 
+- 服务配置说明，主要是[docker-compose.yml](docker-compose.yml) 文件中配置的参数,大部分参数已暴露出来,这里仅列出组件相关参数，忽略logdy和redis的
+  ```yaml
+
+      comfy_balancer:
+        build:
+          context: ./comfy-balancer
+          dockerfile: Dockerfile
+        ports:
+          - 7999:7999
+        depends_on:
+          - redis
+        environment:
+          API_USERNAME: "comfy"
+          API_PASSWORD: "comfy119.."
+          SERVICE_HOST: "comfy_balancer"
+          SERVICE_PORT: 7999
+          REDIS_HOST: "redis"
+          REDIS_PORT: "6379"
+          REDIS_PASSWORD: "PAssWord123"
+          REDIS_DB: "0"
+        networks:
+          - comfy_net
+
+      comfy_service_1:
+        build:
+          context: ./comfy-service
+          dockerfile: Dockerfile
+        ports:
+          - 8101:8101
+        env_file:
+          - ./comfy-service/.env
+        environment:
+          SERVICE_HOST: "comfy_service_1"
+          SERVICE_PORT: 8101
+          REDIS_HOST: "redis"
+          REDIS_PORT: "6379"
+          REDIS_PASSWORD: "PAssWord123"
+          REDIS_DB: "0"
+          API_USERNAME: "comfy"
+          API_PASSWORD: "comfy119.."
+        depends_on:
+          - redis
+          - logdy
+        networks:
+          - comfy_net
+  ``` 
 
 ## 组件说明
 
