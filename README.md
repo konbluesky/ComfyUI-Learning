@@ -183,6 +183,14 @@ test
   - 理想状态： ui中编辑workflow，自动发布到service平台完成并装载，当然取决于workflow的成熟度是否高频，毕竟生成图片全依赖这个，发布后会有版本控制一系列问题
 - [ ] 两个服务web启动都用了uvicorn,目前还是main中run单进程work工作，上生产前启动要换成cli调用，这样可以开多work，提高并发能力
 - [ ] balancer 现在还是一个单实例的微网关，这么设计取决于要基于节点资源cpu、gpu处理能力来请求分发,或者基于其他某种业务上的策略分发请求和任务调度，这种重要角色还是应该用撸棒一些的方案
-  - 更稳妥方案 ：使用成熟网关OpenResty，集成了Lua脚本、第三方模块和工具链方便定制各种业务规则和场景，二次开发利器。
+  - 更稳妥方案 ：使用成熟网关OpenResty，集成了Lua脚本、第三方模块和工具链方便定制各种业务规则和场景，二次开发利器。高并发（10万+ QPS）轻松应对。
 
+#### 参考资料
+
+- https://github.com/smthemex/ComfyUI_StoryDiffusion
+- https://github.com/comfyanonymous/ComfyUI
+- https://docs.comfy.org/get_started/introduction
+- https://github.com/zjf2671/hh-mcp-comfyui
+- https://logdy.dev/docs/reference/code
+- https://hub.docker.com/r/rickraven/logdy
 
