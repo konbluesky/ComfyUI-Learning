@@ -1,0 +1,85 @@
+version: '3.8'
+services:
+
+  logdy:
+    image: rickraven/logdy:0.14.0
+    restart: always
+    ports:
+      - 8080:8080
+      - 10800:10800
+      - 10900:10900
+      - 11000:11000
+    environment:
+      LOGDY_PASS: "mypassword"
+      LOGDY_MODE: "socket"
+      LOGDY_SOCKET_PORTS: "10800 10900 11000"
+      LOGDY_REDIS_HOST: "redis"
+      LOGDY_REDIS_PORT: "6379"
+      LOGDY_REDIS_PASS: "PAssWord!@123"
+      LOGDY_REDIS_DB: "0"
+    networks:
+      - comfy_net
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - comfy_net
+    # environment:
+    #   - REDIS_PASSWORD=PAssWord1231
+    #   - REDIS_PORT=6371
+    #   - REDIS_DB=0
+    command: ["redis-server", "--requirepass", "PAssWord123"]
+    
+  comfy_service_1:
+    build:
+      context: ./comfy-service
+      dockerfile: Dockerfile
+    ports:
+      - 8188:8108
+    env_file:
+      - ./comfy-service/.env
+    environment:
+      SERVICE_HOST: "comfy_service_1"
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: "PAssWord123"
+      REDIS_DB: "0"
+      API_USERNAME: "comfy"
+      API_PASSWORD: "comfy119.."
+    depends_on:
+      - redis
+      - logdy
+    networks:
+      - comfy_net
+
+  comfy_service_2:
+    build:
+      context: ./comfy-service
+      dockerfile: Dockerfile
+    env_file:
+      - ./comfy-service/.env
+    environment:
+      SERVICE_HOST: "comfy_service_2"
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: "PAssWord123"
+      REDIS_DB: "0"
+      API_USERNAME: "comfy"
+      API_PASSWORD: "comfy119.."
+    depends_on:
+      - redis
+      - logdy
+    networks:
+      - comfy_net
+
+volumes:
+  redis_data:
+    driver: local
+
+networks:
+  comfy_net:
+    driver: bridge
