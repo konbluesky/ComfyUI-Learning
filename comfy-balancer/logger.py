@@ -1,9 +1,8 @@
 from loguru import logger
 import os
-from datetime import datetime
 import socket
 
-LOGDY_SERVER = os.getenv("LOGDY_SERVER", "localhost")
+LOGDY_SERVER = os.getenv("LOGDY_SERVER", "logdy")
 LOGDY_PORT = int(os.getenv("LOGDY_PORT", 10800))
 LOGDY_API_KEY = os.getenv("LOGDY_API_KEY", "mypassword")
 SERVICE_HOST = os.getenv("SERVICE_HOST", "comfy_balancer")
@@ -31,7 +30,7 @@ class Logger:
         #     logger.remove()
 
         try:
-            logger.add(TCPLoguruHandler(host=LOGDY_PORT, port=LOGDY_PORT), format="{time} {level} "+ SERVICE_HOST+" {message} ", level=f"{log_level}")
+            logger.add(TCPLoguruHandler(host=LOGDY_SERVER, port=LOGDY_PORT), format="{time} {level} "+ SERVICE_HOST+" {message} ", level=f"{log_level}")
         except Exception as e:
             logger.error(f"Failed to add TCPLoguruHandler: {e}")
 
