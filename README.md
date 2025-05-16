@@ -15,7 +15,7 @@ Comfy 服务系统是一个分布式图像生成服务，由三个主要组件�
 - MacOS M1 32G
 - Python3.11
 - Redis
-- Logdy 日志平台
+- Logdy 轻量级日志查看平台 
 
 ## 安装运行说明
 
@@ -134,6 +134,15 @@ comfy-service
 ![](Screenshot/deploy-dev.png "开发环境")
 
 ## 效果
+
+- ComfyUI
+
+  workflow设计,对照ComfyUI_StoryDiffusion中Example 
+  ![](Screenshot/first-workflow-comfyUI.png "workflow设计,对照ComfyUI_StoryDiffusion中Example") 
+  
+  渲染结果
+  ![](Screenshot/first-workflow-result.png "")  
+  
 - Logdy 
 
   ![](Screenshot/logdy.png "Logdy 平台")
