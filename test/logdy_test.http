@@ -1,0 +1,16 @@
+### Post log to logdy
+POST http://127.0.0.1:8080/api/log
+Authorization: Bearer mypassword
+
+{
+  "logs": [
+    {
+      "ts": 1720645064500,
+      "log": {
+        "attr1":  "hello",
+        "attr2":  "bye"
+      }
+    }
+  ],
+  "source": "logdy_test.http"
+}

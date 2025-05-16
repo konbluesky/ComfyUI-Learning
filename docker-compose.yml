@@ -1,6 +1,7 @@
 version: '3.8'
 services:
 
+# 日志平台
   logdy:
     image: rickraven/logdy:0.14.0
     restart: always
@@ -13,13 +14,11 @@ services:
       LOGDY_PASS: "mypassword"
       LOGDY_MODE: "socket"
       LOGDY_SOCKET_PORTS: "10800 10900 11000"
-      LOGDY_REDIS_HOST: "redis"
-      LOGDY_REDIS_PORT: "6379"
-      LOGDY_REDIS_PASS: "PAssWord!@123"
-      LOGDY_REDIS_DB: "0"
+      LOGDY_API_KEY: "mypassword"
     networks:
       - comfy_net
 
+# Redis 服务
   redis:
     image: redis:7-alpine
     ports:
@@ -33,13 +32,31 @@ services:
     #   - REDIS_PORT=6371
     #   - REDIS_DB=0
     command: ["redis-server", "--requirepass", "PAssWord123"]
-    
+
+  comfy_balancer:
+    build:
+      context: ./comfy-balancer
+      dockerfile: Dockerfile
+    ports:
+      - 7999:7999
+    depends_on:
+      - redis
+    environment:
+      SERVICE_HOST: "comfy_balancer"
+      SERVICE_PORT: 7999
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: "PAssWord123"
+      REDIS_DB: "0"
+    networks:
+      - comfy_net
+
   comfy_service_1:
     build:
       context: ./comfy-service
       dockerfile: Dockerfile
     ports:
-      - 8188:8108
+      - 8188:8101
     env_file:
       - ./comfy-service/.env
     environment:
