@@ -62,6 +62,11 @@ comfy-service
     └── first-workflow.json
 ```
 
+- `workflows`： 配置文件说明，一套流程的api描述文件和模板文件`前缀`命名需要一致，
+  - api文件由ui界面导出 ，操作路径`工作流->导出（API）`
+  - 模板文件从ComfyUI安装时设置的工作目录获取，路径`{WORK_HOME}/user/default/workflows`
+
+
 ## 部署图
 
 ![](Screenshot/deploy-prod.png "生产环境")
