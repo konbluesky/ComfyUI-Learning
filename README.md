@@ -10,12 +10,42 @@ Comfy 服务系统是一个分布式图像生成服务，由三个主要组件�
 - Comfy Balancer：负载均衡器，负责任务分发和节点管理
 - ComfyUI: 负责最终图片渲染生成动作 
 
-
 ## 组件说明
 
 ### Comfy Balancer
 
+#### 文件说明
+
+```shell
+comfy-balancer
+├── config.py
+├── Dockerfile
+├── logger.py
+├── main.py
+├── requirements.txt
+└── web.py
+```
+
 ### Comfy Service
+
+#### 文件说明
+
+```shell
+comfy-service
+├── comfy_api.py
+├── config.py
+├── Dockerfile
+├── health_check.py
+├── logger.py
+├── main.py
+├── models.py
+├── paths.py
+├── requirements.txt
+├── web.py
+└── workflows
+    ├── first-workflow-api.json
+    └── first-workflow.json
+```
 
 
 ## 部署图
@@ -23,6 +53,10 @@ Comfy 服务系统是一个分布式图像生成服务，由三个主要组件�
 ![](Screenshot/deploy-prod.png "生产环境")
 
 ![](Screenshot/deploy-dev.png "开发环境")
+
+
+### 待完善
+
 
 
 
