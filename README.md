@@ -169,6 +169,7 @@ test
   包含围绕图片生成，comfyUI节点信息绝大部分接口
   ![](Screenshot/service-swagger.png "balancer-swagger")
 
+---  
 
 ### 待完善 & 思考
 
@@ -180,6 +181,8 @@ test
   - 思路2: 所有comfyUI web请求逻辑都集中在server.py 中，可在这里二次开发参考service中`logger.py`的套路，把关键日志通过tcp方式扔到logdy中
 - [ ] comfyUI 通过UI导出api.json 比较麻烦。[comfy-cli](https://docs.comfy.org/comfy-cli/reference) 好像有这块能力
   - 理想状态： ui中编辑workflow，自动发布到service平台完成并装载，当然取决于workflow的成熟度是否高频，毕竟生成图片全依赖这个，发布后会有版本控制一系列问题
--
+- [ ] 两个服务web启动都用了uvicorn,目前还是main中run单进程work工作，上生产前启动要换成cli调用，这样可以开多work，提高并发能力
+- [ ] balancer 现在还是一个单实例的微网关，这么设计取决于要基于节点资源cpu、gpu处理能力来请求分发,或者基于其他某种业务上的策略分发请求和任务调度，这种重要角色还是应该用撸棒一些的方案
+  - 更稳妥方案 ：使用成熟网关OpenResty，集成了Lua脚本、第三方模块和工具链方便定制各种业务规则和场景，二次开发利器。
 
 
