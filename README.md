@@ -134,13 +134,20 @@ comfy-service
 ![](Screenshot/deploy-dev.png "开发环境")
 
 ## 效果
-
 - Logdy 
+
   ![](Screenshot/logdy.png "Logdy 平台")
+
 - Balancer
+
   ![](Screenshot/balancer-login.png "Login")
+
+  仅包含图片生成，任务查询主要接口
   ![](Screenshot/balancer-swagger.png "balancer-swagger")
+
 - Service
+
+  包含围绕图片生成，comfyUI节点信息绝大部分接口
   ![](Screenshot/service-swagger.png "balancer-swagger")
 
 
