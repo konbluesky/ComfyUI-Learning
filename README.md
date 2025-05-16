@@ -10,6 +10,21 @@ Comfy 服务系统是一个分布式图像生成服务，由三个主要组件�
 - Comfy Balancer：负载均衡器，负责任务分发和节点管理
 - ComfyUI: 负责最终图片渲染生成动作 
 
+## 安装运行说明
+
+- 服务安装说明
+  ```shell
+  docker-compose up
+  ```
+- ComfyUI 安装参考
+  - 客户端 : Win & MacOS [官网下载](https://www.comfy.org/download)
+  - 源码安装: [https://github.com/comfyanonymous/ComfyUI](https://github.com/comfyanonymous/ComfyUI)
+
+- 开发调试
+  ```shell
+  docker-compose down && docker-compose up --build
+  ``` 
+
 ## 组件说明
 
 ### Comfy Balancer
@@ -47,13 +62,15 @@ comfy-service
     └── first-workflow.json
 ```
 
-
 ## 部署图
 
 ![](Screenshot/deploy-prod.png "生产环境")
 
 ![](Screenshot/deploy-dev.png "开发环境")
 
+## 效果
+
+- Logdy 
 
 ### 待完善
 
