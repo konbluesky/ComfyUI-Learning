@@ -10,12 +10,26 @@ Comfy 服务系统是一个分布式图像生成服务，由三个主要组件�
 - Comfy Balancer：负载均衡器，负责任务分发和节点管理
 - ComfyUI: 负责最终图片渲染生成动作 
 
+
+## 环境依赖
+- MacOS M1 32G
+- Python3.11
+- Redis
+- Logdy 日志平台
+
 ## 安装运行说明
 
 - 服务安装说明
   ```shell
   docker-compose up
   ```
+  - Logdy 日志平台 : http://localhost:8080
+  - Balancer 后台 : http://localhost:7999
+    - 输入用户名：`comfy` 密码:`comfy119..` 后进入swagger页面调试接口
+  - Service 1 : http://localhost:8101
+    - 输入用户名：`comfy` 密码:`comfy119..` 后进入swagger页面调试接口
+  - Service 2 : http://localhost:8102
+  
 - ComfyUI 安装参考
   - 客户端 : Win & MacOS [官网下载](https://www.comfy.org/download)
   - 源码安装: [https://github.com/comfyanonymous/ComfyUI](https://github.com/comfyanonymous/ComfyUI)
@@ -122,6 +136,13 @@ comfy-service
 ## 效果
 
 - Logdy 
+  ![](Screenshot/logdy.png "Logdy 平台")
+- Balancer
+  ![](Screenshot/balancer-login.png "Login")
+  ![](Screenshot/balancer-swagger.png "balancer-swagger")
+- Service
+  ![](Screenshot/service-swagger.png "balancer-swagger")
+
 
 ### 待完善
 
