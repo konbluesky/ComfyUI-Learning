@@ -49,7 +49,8 @@ ComfyUI接口能力边界，评估comfy-service服务的调用形式。
 - [ ] 合理的错误处理机制(暂分两类)
   - Comofy-service 异常
   - ComofyUI 异常
-- [ ] 日志记录系统
+- [x] 日志记录系统
+    - [x] 使用日志平台logdy查看日志， 扩展loguru增加TcpHandler通过socket发送日志；
     - 轻量实现：操作log文件流 
     - 二开实现：干预部分log输出逻辑；这样能够返回Comfy对于每一次Run的日志，并返回给用户 
 
@@ -65,10 +66,20 @@ DELETE /api/v1/tasks/{taskId}
 ### 分布式部署方案(也可以使用现有云服务商提供的类似功能服务)
 > 设计一个支持多机器、多GPU的分布式部署方案：
 
-- [ ] 提供完整的 Dockerfile
+#### 基于Docker搭建基础环境
+
+- comfy-blancer 服务 1 实例
+- comfy-service 服务 2 实例
+- logdy 日志服务平台
+- redis 服务
+
+- [x] 提供完整的 Dockerfile
 - [ ] 设计任务分发机制
-- [ ] 实现基于GPU使用率的负载均衡
-- [ ] 考虑故障转移机制
+- [x] 实现基于GPU使用率的负载均衡
+  - [x] 因Macos M1无法进行CUDA开发，故开发基于CPU来调试
+  - [x] 不过通过GPUtil可以收集到GPU数据，假定宿主机有NVIDIA GPU显卡 是可以收集到数据的
+- [x] 考虑故障转移机制
+  - comfy-service 增加 HeathCheck，收集GPU、CPU数据落Redis 
 - [ ] 监控告警方案
 
 ### 技术栈要求
@@ -80,6 +91,9 @@ DELETE /api/v1/tasks/{taskId}
 
 ## 命令
 ```shell
+
+docker-compose down && docker-compose up --build
+
 docker run -d --name comfy-redis-container --restart always -p 6379:6379 redis --requirepass PAssWord!@123
 
 ./.venv/bin/python3 -c "import sys; print(sys.executable)" 
@@ -93,6 +107,13 @@ conda env create -n giggle-assignment
 label_emb.0.0.weight
 
 ```
+
+logdy
+
+```
+ line.content.split(" ")[2] || "-"
+```
+
 
 ### 数据结构
 
@@ -117,3 +138,5 @@ label_emb.0.0.weight
 - https://github.com/comfyanonymous/ComfyUI
 - https://docs.comfy.org/get_started/introduction
 - https://github.com/zjf2671/hh-mcp-comfyui
+- https://logdy.dev/docs/reference/code
+- https://hub.docker.com/r/rickraven/logdy

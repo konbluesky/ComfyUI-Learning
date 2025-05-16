@@ -1,7 +1,22 @@
 from loguru import logger
 from datetime import datetime
 import paths 
+import socket
+import config as global_config
 
+class TCPLoguruHandler(object):
+    """
+        基于TCP通道发送日志到logdy平台
+    """
+    def __init__(self, host, port):
+        self.host = host
+        self.port = port
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.connect((self.host, self.port))
+    def write(self, message):
+        self.sock.sendall(message.encode('utf-8'))
+    def __del__(self):
+        self.sock.close()
 
 class Logger:
     @staticmethod
@@ -17,6 +32,10 @@ class Logger:
         #     format="<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>",
         #     level=f"{log_level}"
         # )
+        try:
+            logger.add(TCPLoguruHandler(host=global_config.LOGDY_SERVER, port=global_config.LOGDY_PORT), format="{time} {level} " + global_config.SERVICE_HOST +" {message}", level=f"{log_level}")
+        except Exception as e:
+            logger.error(f"Failed to add TCPLoguruHandler: {e}")
 
         # 添加异常文件输出
         logger.add(

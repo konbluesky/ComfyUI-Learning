@@ -42,6 +42,8 @@ services:
     depends_on:
       - redis
     environment:
+      API_USERNAME: "comfy"
+      API_PASSWORD: "comfy119.."
       SERVICE_HOST: "comfy_balancer"
       SERVICE_PORT: 7999
       REDIS_HOST: "redis"
@@ -56,11 +58,12 @@ services:
       context: ./comfy-service
       dockerfile: Dockerfile
     ports:
-      - 8188:8101
+      - 8101:8101
     env_file:
       - ./comfy-service/.env
     environment:
       SERVICE_HOST: "comfy_service_1"
+      SERVICE_PORT: 8101
       REDIS_HOST: "redis"
       REDIS_PORT: "6379"
       REDIS_PASSWORD: "PAssWord123"
@@ -77,10 +80,13 @@ services:
     build:
       context: ./comfy-service
       dockerfile: Dockerfile
+    ports:
+      - 8102:8102
     env_file:
       - ./comfy-service/.env
     environment:
       SERVICE_HOST: "comfy_service_2"
+      SERVICE_PORT: 8102
       REDIS_HOST: "redis"
       REDIS_PORT: "6379"
       REDIS_PASSWORD: "PAssWord123"

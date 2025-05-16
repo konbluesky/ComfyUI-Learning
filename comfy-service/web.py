@@ -1,20 +1,17 @@
-import orjson
-import traceback
 from datetime import datetime, timedelta, UTC
-from typing import Dict, Any
 
 import jwt
-from fastapi import FastAPI, Depends, HTTPException, status, Request, Body
+from fastapi import FastAPI, Depends, HTTPException, status, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import get_swagger_ui_html, get_redoc_html
 from fastapi.openapi.utils import get_openapi
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.security import OAuth2PasswordRequestForm
-from logger import Logger, app_logger as logger
-from pydantic import BaseModel, Field
 
 import config as global_config
+from logger import Logger, app_logger as logger
 from models import Token
+
 
 # JWT相关函数
 def create_access_token(data: dict, expires_delta: timedelta = None):
@@ -25,6 +22,7 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     encoded_jwt = jwt.encode(to_encode, global_config.JWT_SECRET, algorithm=global_config.JWT_ALGORITHM)
     logger.info(f"创建JWT token: {encoded_jwt[:10]}...")
     return encoded_jwt
+
 
 async def get_current_user(request: Request):
     """验证JWT token"""
@@ -50,6 +48,7 @@ async def get_current_user(request: Request):
     except Exception as e:
         logger.error(f"认证过程发生异常: {str(e)}")
         raise credentials_exception
+
 
 # 登录页面HTML
 LOGIN_HTML = """
@@ -139,24 +138,8 @@ LOGIN_HTML = """
 </html>
 """
 
-def create_app() -> FastAPI:
-    """创建FastAPI应用"""
-    app = FastAPI(
-        title="DevComfy",
-        description="DevComfy",
-        version="1.0.0",
-        docs_url=None,
-        redoc_url=None
-    )
 
-    # 添加CORS中间件
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["*"],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+def create_app(app) -> FastAPI:
 
     # 路由处理函数
     @app.get("/", response_class=HTMLResponse, include_in_schema=False)
@@ -246,46 +229,3 @@ def create_app() -> FastAPI:
             title=f"{app.title} - ReDoc",
             redoc_js_url="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js",
         )
-
-    @app.get("/api/config", dependencies=[Depends(get_current_user)], name="获取配置")
-    async def get_config():
-        """获取配置信息"""
-        return orjson.loads(global_config.config_to_json())
-
-    @app.post("/api/config", dependencies=[Depends(get_current_user)], name="更新配置")
-    async def update_config(data: Dict[str, Any] = Body(
-        ...,
-        description="配置参数",
-        examples=[{
-            "name": "更新交易参数",
-            "value": {
-                "trading": {
-                    "capital": {
-                        "total_usdt": 2000
-                    },
-                    "risk": {
-                        "min_funding_rate_diff": 0.0002
-                    }
-                }
-            }
-        }]
-    )):
-        """更新配置信息"""
-        try:
-            global_config.update_config(data)
-            return orjson.loads(global_config.config_to_json())
-        except Exception as e:
-            logger.error(f"更新配置失败: {str(e)}")
-            logger.error(f"错误堆栈: {traceback.format_exc()}")
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"更新配置失败: {str(e)}"
-            )
-
-    return app
-
-if __name__ == "__main__":
-    import uvicorn
-    Logger.setup(True)
-    logger.info(f"启动服务: {global_config.SERVER_PORT}")
-    uvicorn.run('web:create_app', host="0.0.0.0", port=global_config.SERVER_PORT,reload=True)

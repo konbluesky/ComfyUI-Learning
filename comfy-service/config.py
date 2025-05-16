@@ -8,7 +8,7 @@ current_dir = Path(__file__).resolve().parent
 # 加载.env文件中的环境变量
 load_dotenv(dotenv_path=current_dir / '.env')
 
-COMFY_HOST = "http://127.0.0.1:8000"
+COMFY_HOST = os.getenv("COMFY_HOST", "http://host.docker.internal:8000")
 
 # API文档路径
 SWAGGER_URL = "/a/s"

@@ -35,9 +35,7 @@ def get_workflow_dir():
 
 def get_workflow_path(workflow_name):
     """获取工作流文件路径"""
-    workflow_path = os.path.join(get_app_dir(), workflow_name)
-    if not os.path.exists(workflow_path):
-        os.makedirs(workflow_path)
+    workflow_path = os.path.join(get_workflow_dir(), workflow_name)
     return workflow_path
 
 def get_log_path():
