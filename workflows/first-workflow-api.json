@@ -1,0 +1,142 @@
+{
+  "4": {
+    "inputs": {
+      "ckpt_name": "juggernautXL_v8Rundiffusion.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Checkpoint加载器（简易）"
+    }
+  },
+  "5": {
+    "inputs": {
+      "width": [
+        "10",
+        3
+      ],
+      "height": [
+        "10",
+        4
+      ],
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "空Latent图像"
+    }
+  },
+  "8": {
+    "inputs": {
+      "samples": [
+        "12",
+        0
+      ],
+      "vae": [
+        "4",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE解码"
+    }
+  },
+  "9": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "保存图像"
+    }
+  },
+  "10": {
+    "inputs": {
+      "width": 768,
+      "height": 768,
+      "role_text": "[Taylor] a woman img, wearing a white T-shirt, blue loose hair.\n[Lecun] a man img,wearing a suit,black hair，wear glasses.",
+      "scene_text": "[Taylor] wake up in the bed ;\n[Taylor] have breakfast by the window;\n[Lecun] driving a car;\n[Lecun] is working.",
+      "pos_text": ",best",
+      "neg_text": "bad anatomy, bad hands, missing fingers, extra fingers,three hands, three legs, bad arms, missing legs, missing arms, poorly drawn face, bad face, fused face, cloned face, three crus, fused feet, fused thigh, extra crus, ugly fingers, horn,amputation, disconnected limbs",
+      "lora_trigger_words": "best quality",
+      "add_style": "No_style",
+      "mask_threshold": 0.5,
+      "extra_param": "",
+      "guidance_list": "0., 0.25, 0.4, 0.75;0.6, 0.25, 1., 0.75",
+      "clip": [
+        "4",
+        1
+      ],
+      "switch": [
+        "11",
+        1
+      ]
+    },
+    "class_type": "StoryDiffusion_CLIPTextEncode",
+    "_meta": {
+      "title": "StoryDiffusion_CLIPTextEncode"
+    }
+  },
+  "11": {
+    "inputs": {
+      "infer_mode": "story",
+      "photomake_ckpt": "none",
+      "ipadapter_ckpt": "none",
+      "quantize_mode": "fp8",
+      "lora_scale": 0.8,
+      "extra_function": "",
+      "model": [
+        "4",
+        0
+      ],
+      "vae": [
+        "4",
+        2
+      ]
+    },
+    "class_type": "StoryDiffusion_Apply",
+    "_meta": {
+      "title": "StoryDiffusion_Apply"
+    }
+  },
+  "12": {
+    "inputs": {
+      "seed": 87705249,
+      "steps": 20,
+      "cfg": 8,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "sa32_degree": 0.5,
+      "sa64_degree": 0.5,
+      "denoise": 1,
+      "model": [
+        "11",
+        0
+      ],
+      "positive": [
+        "10",
+        0
+      ],
+      "negative": [
+        "10",
+        1
+      ],
+      "info": [
+        "10",
+        2
+      ],
+      "latent_image": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "StoryDiffusion_KSampler",
+    "_meta": {
+      "title": "StoryDiffusion_KSampler"
+    }
+  }
+}
