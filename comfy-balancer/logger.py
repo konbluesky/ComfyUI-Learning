@@ -31,12 +31,12 @@ class Logger:
         #     logger.remove()
 
         try:
-            logger.add(TCPLoguruHandler(host=LOGDY_PORT, port=LOGDY_PORT), format="{time} {level} {SERVICE_HOST} {message} ", level=f"{log_level}")
+            logger.add(TCPLoguruHandler(host=LOGDY_PORT, port=LOGDY_PORT), format="{time} {level} "+ SERVICE_HOST+" {message} ", level=f"{log_level}")
         except Exception as e:
             logger.error(f"Failed to add TCPLoguruHandler: {e}")
 
         try:
-            logger.add(TCPLoguruHandler(host=LOGDY_SERVER, port=LOGDY_PORT), format="{time} {level} {SERVICE_HOST} {message}", level="ERROR")
+            logger.add(TCPLoguruHandler(host=LOGDY_SERVER, port=LOGDY_PORT), format="{time} {level} "+ SERVICE_HOST+" {message} ", level="ERROR")
         except Exception as e:
             logger.error(f"Failed to add TCPLoguruHandler: {e}")
 

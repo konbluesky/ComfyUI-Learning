@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+redis
+psutil
+python-dotenv
+pydantic
+loguru
+httpx
