@@ -125,7 +125,7 @@ LOGIN_HTML = """
 </head>
 <body>
     <div class="login-container">
-        <h1>Comfy Node Manager</h1>
+        <h1>Comfy Balancer Manager</h1>
         <form action="/login" method="post">
             <div class="form-group">
                 <label for="username">用户名</label>
